@@ -1,0 +1,17 @@
+services:
+  intellilog-api:
+    build: .
+    ports:
+      - "${APP_PORT:-8000}:8000"
+    env_file:
+      - .env
+    environment:
+      - GROQ_API_KEY=${GROQ_API_KEY:-}
+      - BERT_CONFIDENCE_THRESHOLD=${BERT_CONFIDENCE_THRESHOLD:-0.90}
+      - LLM_MODEL=${LLM_MODEL:-llama-3.3-70b-versatile}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - BERT_MODEL_DIR=models/bert_classifier
+    volumes:
+      - ./models:/app/models
+      - ./evaluation_results:/app/evaluation_results
+    restart: unless-stopped

@@ -1,0 +1,168 @@
+{
+  "model": "fine_tuned_bert",
+  "split": "test",
+  "n_samples": 340,
+  "accuracy": 0.9970588235294118,
+  "precision_weighted": 0.9942265795206973,
+  "recall_weighted": 0.9970588235294118,
+  "f1_weighted": 0.9956159822419534,
+  "f1_macro": 0.8726415094339622,
+  "avg_latency_ms": 64.68319147060195,
+  "classification_report": {
+    "Critical Error": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 24.0
+    },
+    "Error": {
+      "precision": 0.9629629629629629,
+      "recall": 1.0,
+      "f1-score": 0.9811320754716981,
+      "support": 26.0
+    },
+    "HTTP Status": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 153.0
+    },
+    "Resource Usage": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 23.0
+    },
+    "Security Alert": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 55.0
+    },
+    "System Notification": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 36.0
+    },
+    "User Action": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 22.0
+    },
+    "Workflow Error": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "accuracy": 0.9970588235294118,
+    "macro avg": {
+      "precision": 0.8703703703703703,
+      "recall": 0.875,
+      "f1-score": 0.8726415094339622,
+      "support": 340.0
+    },
+    "weighted avg": {
+      "precision": 0.9942265795206973,
+      "recall": 0.9970588235294118,
+      "f1-score": 0.9956159822419534,
+      "support": 340.0
+    }
+  },
+  "confusion_matrix": {
+    "labels": [
+      "Critical Error",
+      "Error",
+      "HTTP Status",
+      "Resource Usage",
+      "Security Alert",
+      "System Notification",
+      "User Action",
+      "Workflow Error"
+    ],
+    "matrix": [
+      [
+        24,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        26,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        153,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        23,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        55,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        36,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        22,
+        0
+      ],
+      [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ]
+  }
+}

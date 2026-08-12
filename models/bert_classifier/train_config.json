@@ -1,0 +1,15 @@
+{
+  "model_name": "distilbert-base-uncased",
+  "max_length": 128,
+  "batch_size": 16,
+  "learning_rate": 2e-05,
+  "num_epochs": 3,
+  "weight_decay": 0.01,
+  "warmup_ratio": 0.1,
+  "early_stopping_patience": 2,
+  "seed": 42,
+  "output_dir": "models/bert_classifier",
+  "train_file": "training/data/splits/train.csv",
+  "val_file": "training/data/splits/val.csv",
+  "test_file": "training/data/splits/test.csv"
+}

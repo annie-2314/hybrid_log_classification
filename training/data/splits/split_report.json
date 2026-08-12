@@ -1,0 +1,121 @@
+{
+  "seed": 42,
+  "test_size": 0.15,
+  "val_size": 0.15,
+  "rare_labels_forced_to_train": [],
+  "overall": {
+    "total_samples": 2265,
+    "num_classes": 9,
+    "counts": {
+      "HTTP Status": 1017,
+      "Security Alert": 369,
+      "System Notification": 242,
+      "Error": 175,
+      "Critical Error": 161,
+      "Resource Usage": 151,
+      "User Action": 143,
+      "Workflow Error": 4,
+      "Deprecation Warning": 3
+    },
+    "ratios": {
+      "HTTP Status": 0.44900662251655626,
+      "Security Alert": 0.1629139072847682,
+      "System Notification": 0.10684326710816777,
+      "Error": 0.0772626931567329,
+      "Critical Error": 0.07108167770419425,
+      "Resource Usage": 0.06666666666666667,
+      "User Action": 0.0631346578366446,
+      "Workflow Error": 0.0017660044150110375,
+      "Deprecation Warning": 0.0013245033112582781
+    },
+    "imbalance_ratio_max_over_min": 339.0,
+    "is_imbalanced": true
+  },
+  "train": {
+    "total_samples": 1585,
+    "num_classes": 9,
+    "counts": {
+      "HTTP Status": 711,
+      "Security Alert": 259,
+      "System Notification": 170,
+      "Error": 123,
+      "Critical Error": 113,
+      "Resource Usage": 105,
+      "User Action": 100,
+      "Workflow Error": 2,
+      "Deprecation Warning": 2
+    },
+    "ratios": {
+      "HTTP Status": 0.4485804416403785,
+      "Security Alert": 0.16340694006309148,
+      "System Notification": 0.10725552050473186,
+      "Error": 0.07760252365930599,
+      "Critical Error": 0.07129337539432176,
+      "Resource Usage": 0.06624605678233439,
+      "User Action": 0.06309148264984227,
+      "Workflow Error": 0.0012618296529968455,
+      "Deprecation Warning": 0.0012618296529968455
+    },
+    "imbalance_ratio_max_over_min": 355.5,
+    "is_imbalanced": true
+  },
+  "val": {
+    "total_samples": 340,
+    "num_classes": 9,
+    "counts": {
+      "HTTP Status": 153,
+      "Security Alert": 55,
+      "System Notification": 36,
+      "Error": 26,
+      "Critical Error": 24,
+      "Resource Usage": 23,
+      "User Action": 21,
+      "Workflow Error": 1,
+      "Deprecation Warning": 1
+    },
+    "ratios": {
+      "HTTP Status": 0.45,
+      "Security Alert": 0.16176470588235295,
+      "System Notification": 0.10588235294117647,
+      "Error": 0.07647058823529412,
+      "Critical Error": 0.07058823529411765,
+      "Resource Usage": 0.06764705882352941,
+      "User Action": 0.061764705882352944,
+      "Workflow Error": 0.0029411764705882353,
+      "Deprecation Warning": 0.0029411764705882353
+    },
+    "imbalance_ratio_max_over_min": 153.0,
+    "is_imbalanced": true
+  },
+  "test": {
+    "total_samples": 340,
+    "num_classes": 8,
+    "counts": {
+      "HTTP Status": 153,
+      "Security Alert": 55,
+      "System Notification": 36,
+      "Error": 26,
+      "Critical Error": 24,
+      "Resource Usage": 23,
+      "User Action": 22,
+      "Workflow Error": 1
+    },
+    "ratios": {
+      "HTTP Status": 0.45,
+      "Security Alert": 0.16176470588235295,
+      "System Notification": 0.10588235294117647,
+      "Error": 0.07647058823529412,
+      "Critical Error": 0.07058823529411765,
+      "Resource Usage": 0.06764705882352941,
+      "User Action": 0.06470588235294118,
+      "Workflow Error": 0.0029411764705882353
+    },
+    "imbalance_ratio_max_over_min": 153.0,
+    "is_imbalanced": true
+  },
+  "sizes": {
+    "train": 1585,
+    "val": 340,
+    "test": 340
+  }
+}

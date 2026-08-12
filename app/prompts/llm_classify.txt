@@ -1,0 +1,30 @@
+Classify the following software/system log message.
+
+Return ONLY valid JSON with this exact schema (no markdown, no extra keys):
+{
+  "category": "<one of the allowed categories>",
+  "severity": "<CRITICAL|HIGH|MEDIUM|LOW|UNKNOWN>",
+  "reason": "<short explanation>"
+}
+
+Allowed categories:
+- HTTP Status
+- Security Alert
+- System Notification
+- Error
+- Resource Usage
+- Critical Error
+- User Action
+- Workflow Error
+- Deprecation Warning
+- Unclassified
+
+Severity guidance:
+- CRITICAL: system-breaking failures
+- HIGH: security issues, hard errors, failed workflows
+- MEDIUM: resource pressure, deprecations, HTTP anomalies
+- LOW: routine notifications / user actions
+- UNKNOWN: cannot determine
+
+Log message:
+{{LOG_MESSAGE}}

@@ -1,0 +1,50 @@
+{
+  "activation": "gelu",
+  "architectures": [
+    "DistilBertForSequenceClassification"
+  ],
+  "attention_dropout": 0.1,
+  "bos_token_id": null,
+  "dim": 768,
+  "dropout": 0.1,
+  "dtype": "float32",
+  "eos_token_id": null,
+  "hidden_dim": 3072,
+  "id2label": {
+    "0": "Critical Error",
+    "1": "Deprecation Warning",
+    "2": "Error",
+    "3": "HTTP Status",
+    "4": "Resource Usage",
+    "5": "Security Alert",
+    "6": "System Notification",
+    "7": "User Action",
+    "8": "Workflow Error"
+  },
+  "initializer_range": 0.02,
+  "label2id": {
+    "Critical Error": 0,
+    "Deprecation Warning": 1,
+    "Error": 2,
+    "HTTP Status": 3,
+    "Resource Usage": 4,
+    "Security Alert": 5,
+    "System Notification": 6,
+    "User Action": 7,
+    "Workflow Error": 8
+  },
+  "max_position_embeddings": 512,
+  "model_type": "distilbert",
+  "n_heads": 12,
+  "n_layers": 6,
+  "pad_token_id": 0,
+  "problem_type": "single_label_classification",
+  "qa_dropout": 0.1,
+  "seq_classif_dropout": 0.2,
+  "sinusoidal_pos_embds": false,
+  "tie_weights_": true,
+  "tie_word_embeddings": true,
+  "transformers_version": "5.15.0",
+  "use_cache": false,
+  "vocab_size": 30522
+}

@@ -1,0 +1,779 @@
+{
+  "results": [
+    {
+      "model": "regex_only",
+      "n_samples": 340,
+      "accuracy": 0.17058823529411765,
+      "precision_weighted": 0.17058823529411765,
+      "recall_weighted": 0.17058823529411765,
+      "f1_weighted": 0.17058823529411765,
+      "f1_macro": 0.2222222222222222,
+      "avg_latency_ms": 0.012013529404237703,
+      "classification_report": {
+        "Critical Error": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 24.0
+        },
+        "Error": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 26.0
+        },
+        "HTTP Status": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 153.0
+        },
+        "Resource Usage": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 23.0
+        },
+        "Security Alert": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 55.0
+        },
+        "System Notification": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 36.0
+        },
+        "Unclassified": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "User Action": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 22.0
+        },
+        "Workflow Error": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "accuracy": 0.17058823529411765,
+        "macro avg": {
+          "precision": 0.2222222222222222,
+          "recall": 0.2222222222222222,
+          "f1-score": 0.2222222222222222,
+          "support": 340.0
+        },
+        "weighted avg": {
+          "precision": 0.17058823529411765,
+          "recall": 0.17058823529411765,
+          "f1-score": 0.17058823529411765,
+          "support": 340.0
+        }
+      },
+      "confusion_matrix": {
+        "labels": [
+          "Critical Error",
+          "Error",
+          "HTTP Status",
+          "Resource Usage",
+          "Security Alert",
+          "System Notification",
+          "Unclassified",
+          "User Action",
+          "Workflow Error"
+        ],
+        "matrix": [
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            24,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            26,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            153,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            23,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            55,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            22,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0
+          ]
+        ]
+      },
+      "regex_match_rate": 0.17058823529411765
+    },
+    {
+      "model": "sentence_transformer_lr",
+      "n_samples": 340,
+      "accuracy": 0.8117647058823529,
+      "precision_weighted": 0.7108768783508268,
+      "recall_weighted": 0.8117647058823529,
+      "f1_weighted": 0.7508431872010315,
+      "f1_macro": 0.46816409919777,
+      "avg_latency_ms": 27.649462941147195,
+      "classification_report": {
+        "Critical Error": {
+          "precision": 0.631578947368421,
+          "recall": 1.0,
+          "f1-score": 0.7741935483870968,
+          "support": 24.0
+        },
+        "Error": {
+          "precision": 0.525,
+          "recall": 0.8076923076923077,
+          "f1-score": 0.6363636363636364,
+          "support": 26.0
+        },
+        "HTTP Status": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 153.0
+        },
+        "Resource Usage": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 23.0
+        },
+        "Security Alert": {
+          "precision": 0.6707317073170732,
+          "recall": 1.0,
+          "f1-score": 0.8029197080291971,
+          "support": 55.0
+        },
+        "System Notification": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 36.0
+        },
+        "Unclassified": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "User Action": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 22.0
+        },
+        "Workflow Error": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "accuracy": 0.8117647058823529,
+        "macro avg": {
+          "precision": 0.4252567394094994,
+          "recall": 0.5341880341880342,
+          "f1-score": 0.46816409919777,
+          "support": 340.0
+        },
+        "weighted avg": {
+          "precision": 0.7108768783508268,
+          "recall": 0.8117647058823529,
+          "f1-score": 0.7508431872010315,
+          "support": 340.0
+        }
+      },
+      "confusion_matrix": {
+        "labels": [
+          "Critical Error",
+          "Error",
+          "HTTP Status",
+          "Resource Usage",
+          "Security Alert",
+          "System Notification",
+          "Unclassified",
+          "User Action",
+          "Workflow Error"
+        ],
+        "matrix": [
+          [
+            24,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            21,
+            0,
+            0,
+            0,
+            0,
+            2,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            153,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            23,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            55,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            11,
+            19,
+            0,
+            0,
+            5,
+            0,
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            22,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "model": "fine_tuned_bert",
+      "n_samples": 340,
+      "accuracy": 0.9970588235294118,
+      "precision_weighted": 0.9942265795206973,
+      "recall_weighted": 0.9970588235294118,
+      "f1_weighted": 0.9956159822419534,
+      "f1_macro": 0.8726415094339622,
+      "avg_latency_ms": 72.79570823529332,
+      "classification_report": {
+        "Critical Error": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 24.0
+        },
+        "Error": {
+          "precision": 0.9629629629629629,
+          "recall": 1.0,
+          "f1-score": 0.9811320754716981,
+          "support": 26.0
+        },
+        "HTTP Status": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 153.0
+        },
+        "Resource Usage": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 23.0
+        },
+        "Security Alert": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 55.0
+        },
+        "System Notification": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 36.0
+        },
+        "User Action": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 22.0
+        },
+        "Workflow Error": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "accuracy": 0.9970588235294118,
+        "macro avg": {
+          "precision": 0.8703703703703703,
+          "recall": 0.875,
+          "f1-score": 0.8726415094339622,
+          "support": 340.0
+        },
+        "weighted avg": {
+          "precision": 0.9942265795206973,
+          "recall": 0.9970588235294118,
+          "f1-score": 0.9956159822419534,
+          "support": 340.0
+        }
+      },
+      "confusion_matrix": {
+        "labels": [
+          "Critical Error",
+          "Error",
+          "HTTP Status",
+          "Resource Usage",
+          "Security Alert",
+          "System Notification",
+          "User Action",
+          "Workflow Error"
+        ],
+        "matrix": [
+          [
+            24,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            26,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            153,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            23,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            55,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            36,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            22,
+            0
+          ],
+          [
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "model": "llm_only",
+      "status": "skipped",
+      "reason": "Pass --include-llm to evaluate (uses API credits)"
+    },
+    {
+      "model": "hybrid_router",
+      "n_samples": 340,
+      "accuracy": 0.9676470588235294,
+      "precision_weighted": 0.9677853457172342,
+      "recall_weighted": 0.9676470588235294,
+      "f1_weighted": 0.9665526713601417,
+      "f1_macro": 0.9487812490357219,
+      "avg_latency_ms": 144.36855588235298,
+      "classification_report": {
+        "Critical Error": {
+          "precision": 0.9473684210526315,
+          "recall": 0.75,
+          "f1-score": 0.8372093023255814,
+          "support": 24.0
+        },
+        "Error": {
+          "precision": 0.84,
+          "recall": 0.8076923076923077,
+          "f1-score": 0.8235294117647058,
+          "support": 26.0
+        },
+        "HTTP Status": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 153.0
+        },
+        "Resource Usage": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 23.0
+        },
+        "Security Alert": {
+          "precision": 0.9649122807017544,
+          "recall": 1.0,
+          "f1-score": 0.9821428571428571,
+          "support": 55.0
+        },
+        "System Notification": {
+          "precision": 0.9,
+          "recall": 1.0,
+          "f1-score": 0.9473684210526315,
+          "support": 36.0
+        },
+        "User Action": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 22.0
+        },
+        "Workflow Error": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 1.0
+        },
+        "accuracy": 0.9676470588235294,
+        "macro avg": {
+          "precision": 0.9565350877192983,
+          "recall": 0.9447115384615384,
+          "f1-score": 0.9487812490357219,
+          "support": 340.0
+        },
+        "weighted avg": {
+          "precision": 0.9677853457172342,
+          "recall": 0.9676470588235294,
+          "f1-score": 0.9665526713601417,
+          "support": 340.0
+        }
+      },
+      "confusion_matrix": {
+        "labels": [
+          "Critical Error",
+          "Error",
+          "HTTP Status",
+          "Resource Usage",
+          "Security Alert",
+          "System Notification",
+          "User Action",
+          "Workflow Error"
+        ],
+        "matrix": [
+          [
+            18,
+            4,
+            0,
+            0,
+            0,
+            2,
+            0,
+            0
+          ],
+          [
+            1,
+            21,
+            0,
+            0,
+            2,
+            2,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            153,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            23,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            55,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            36,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            22,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1
+          ]
+        ]
+      },
+      "method_counts": {
+        "fine_tuned_bert": 242,
+        "regex": 58,
+        "llm_fallback": 40
+      },
+      "llm_invocation_count": 40,
+      "llm_usage_percentage": 11.76470588235294
+    }
+  ],
+  "comparison_table": [
+    {
+      "Model": "regex_only",
+      "Accuracy": 0.1706,
+      "Macro F1": 0.2222,
+      "Weighted F1": 0.1706,
+      "Avg Latency (ms)": 0.012,
+      "Status": "ok"
+    },
+    {
+      "Model": "sentence_transformer_lr",
+      "Accuracy": 0.8118,
+      "Macro F1": 0.4682,
+      "Weighted F1": 0.7508,
+      "Avg Latency (ms)": 27.649,
+      "Status": "ok"
+    },
+    {
+      "Model": "fine_tuned_bert",
+      "Accuracy": 0.9971,
+      "Macro F1": 0.8726,
+      "Weighted F1": 0.9956,
+      "Avg Latency (ms)": 72.796,
+      "Status": "ok"
+    },
+    {
+      "Model": "llm_only",
+      "Accuracy": null,
+      "Macro F1": null,
+      "Weighted F1": null,
+      "Avg Latency (ms)": null,
+      "Status": "skipped: Pass --include-llm to evaluate (uses API credits)"
+    },
+    {
+      "Model": "hybrid_router",
+      "Accuracy": 0.9676,
+      "Macro F1": 0.9488,
+      "Weighted F1": 0.9666,
+      "Avg Latency (ms)": 144.369,
+      "Status": "ok"
+    }
+  ]
+}

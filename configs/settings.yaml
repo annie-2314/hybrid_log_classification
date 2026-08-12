@@ -1,0 +1,67 @@
+# IntelliLog AI — default configuration (overridable via environment variables)
+
+app:
+  name: "IntelliLog AI"
+  version: "1.0.0"
+  log_level: "INFO"
+
+routing:
+  # Accept BERT prediction when max softmax probability >= this threshold
+  bert_confidence_threshold: 0.90
+  # Also try legacy SentenceTransformer+LR when BERT model is unavailable
+  enable_legacy_st_lr: true
+  legacy_st_lr_threshold: 0.50
+
+bert:
+  model_name: "distilbert-base-uncased"
+  max_length: 128
+  batch_size: 16
+  learning_rate: 2.0e-5
+  num_epochs: 3
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  early_stopping_patience: 2
+  seed: 42
+  output_dir: "models/bert_classifier"
+  train_file: "training/data/splits/train.csv"
+  val_file: "training/data/splits/val.csv"
+  test_file: "training/data/splits/test.csv"
+  label_map_file: "models/bert_classifier/label_map.json"
+
+data:
+  raw_csv: "training/data/synthetic_logs.csv"
+  splits_dir: "training/data/splits"
+  test_size: 0.15
+  val_size: 0.15
+  random_seed: 42
+  text_column: "log_message"
+  label_column: "target_label"
+  # Labels with very few samples are LLM-oriented; still included in hybrid eval
+  min_samples_for_stratify: 2
+
+llm:
+  provider: "groq"
+  model: "llama-3.3-70b-versatile"
+  temperature: 0.1
+  max_retries: 3
+  timeout_seconds: 30
+  # Approximate USD per 1M tokens (update if pricing changes; used only when usage is returned)
+  input_cost_per_1m_tokens: 0.59
+  output_cost_per_1m_tokens: 0.79
+
+severity:
+  Critical Error: CRITICAL
+  Security Alert: HIGH
+  Error: HIGH
+  Workflow Error: HIGH
+  Resource Usage: MEDIUM
+  Deprecation Warning: MEDIUM
+  HTTP Status: MEDIUM
+  System Notification: LOW
+  User Action: LOW
+  Unclassified: UNKNOWN
+
+paths:
+  legacy_st_lr_model: "models/log_classifier.joblib"
+  evaluation_dir: "evaluation_results"
+  metrics_store: "evaluation_results/runtime_metrics.json"
