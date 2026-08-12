@@ -1,8 +1,8 @@
-# IntelliLog AI — Intelligent Hybrid Log Classification & Routing System
+# HybridLog Classifier — Intelligent Hybrid Log Classification & Routing System
 
 Production-oriented upgrade of the hybrid NLP log classification project ([codebasics/project-nlp-log-classification](https://github.com/codebasics/project-nlp-log-classification)).
 
-IntelliLog AI classifies software/system logs using an **intelligent router**:
+HybridLog Classifier classifies software/system logs using an **intelligent router**:
 
 1. **Regex** for fixed, predictable patterns  
 2. **Fine-tuned Transformer (DistilBERT)** for ML-classifiable logs  

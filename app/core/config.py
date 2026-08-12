@@ -44,7 +44,7 @@ def _load_yaml(path: Path) -> Dict[str, Any]:
 class Settings(BaseModel):
     """Application settings with env overrides for secrets and tunables."""
 
-    app_name: str = "IntelliLog AI"
+    app_name: str = "HybridLog Classifier"
     app_version: str = "1.0.0"
     log_level: str = "INFO"
 
@@ -108,7 +108,7 @@ def get_settings() -> Settings:
     severity = raw.get("severity", {})
 
     return Settings(
-        app_name=app.get("name", "IntelliLog AI"),
+        app_name=app.get("name", "HybridLog Classifier"),
         app_version=app.get("version", "1.0.0"),
         log_level=os.getenv("LOG_LEVEL", app.get("log_level", "INFO")),
         bert_confidence_threshold=_env_float(

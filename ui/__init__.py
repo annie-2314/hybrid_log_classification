@@ -1,1 +1,1 @@
-"""Streamlit frontend helpers for IntelliLog AI."""
+"""Streamlit frontend helpers for HybridLog Classifier."""

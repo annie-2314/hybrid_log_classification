@@ -1,4 +1,4 @@
-"""Streamlit frontend for IntelliLog AI.
+"""Streamlit frontend for HybridLog Classifier.
 
 Run:
     streamlit run ui/app.py

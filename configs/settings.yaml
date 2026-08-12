@@ -1,7 +1,7 @@
-# IntelliLog AI — default configuration (overridable via environment variables)
+# HybridLog Classifier — default configuration (overridable via environment variables)
 
 app:
-  name: "IntelliLog AI"
+  name: "HybridLog Classifier"
   version: "1.0.0"
   log_level: "INFO"
 
