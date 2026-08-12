@@ -71,10 +71,25 @@ def _direct_metrics() -> Dict[str, Any]:
     return get_metrics_collector().snapshot()
 
 
-def classify_one(log_message: str, source: Optional[str], mode: str, client: IntelliLogClient) -> Dict[str, Any]:
-    if mode == "Direct (local router)":
-        return _direct_classify(log_message, source)
-    return client.predict(log_message, source=source or None)
+def _on_streamlit_cloud() -> bool:
+    return bool(os.getenv("STREAMLIT_RUNTIME_ENV") == "cloud" or os.getenv("HOSTNAME", "").endswith(".streamlit.app"))
+
+
+def _api_available(client: IntelliLogClient) -> bool:
+    try:
+        client.health()
+        return True
+    except IntelliLogAPIError:
+        return False
+
+
+def classify_one(log_message: str, source: Optional[str], use_api: bool, client: IntelliLogClient) -> Dict[str, Any]:
+    if use_api:
+        try:
+            return client.predict(log_message, source=source or None)
+        except IntelliLogAPIError:
+            return _direct_classify(log_message, source)
+    return _direct_classify(log_message, source)
 
 
 def render_result(result: Dict[str, Any]) -> None:
@@ -103,34 +118,23 @@ def render_result(result: Dict[str, Any]) -> None:
 
 
 def main() -> None:
-    st.set_page_config(page_title="IntelliLog AI", page_icon="🪵", layout="wide")
-    st.title("IntelliLog AI")
+    st.set_page_config(page_title="HybridLog Classifier", page_icon="🪵", layout="wide")
+    st.title("HybridLog Classifier")
     st.caption("Hybrid log classification: Regex → Fine-tuned BERT → LLM fallback")
 
     default_api = os.getenv("INTELLILOG_API_URL", "http://127.0.0.1:8000")
     with st.sidebar:
-        st.header("Connection")
-        mode = st.radio(
-            "Mode",
-            ["API (FastAPI)", "Direct (local router)"],
-            help="API mode needs uvicorn running. Direct mode loads models in this Streamlit process.",
-        )
-        api_url = st.text_input("API URL", value=default_api)
+        st.header("Status")
+        api_url = os.getenv("INTELLILOG_API_URL", default_api)
         client = IntelliLogClient(base_url=api_url)
-
-        st.divider()
-        st.subheader("Backend health")
-        if st.button("Refresh health"):
-            st.session_state["health_refresh"] = True
-        try:
-            health = _direct_health() if mode.startswith("Direct") else client.health()
-            st.success(f"{health.get('app', 'IntelliLog')} · {health.get('status', 'unknown')}")
-            st.write(f"BERT loaded: `{health.get('bert_loaded')}`")
-            st.write(f"Legacy ST+LR: `{health.get('legacy_st_lr_loaded')}`")
-            st.write(f"LLM configured: `{health.get('llm_configured')}`")
-        except IntelliLogAPIError as exc:
-            st.error(str(exc))
-            st.markdown("Start backend:\n```powershell\nuvicorn app.main:app --reload\n```")
+        # Streamlit Cloud has no local FastAPI; use in-process router quietly.
+        use_api = (not _on_streamlit_cloud()) and _api_available(client)
+        health = _direct_health() if not use_api else client.health()
+        st.success("Ready")
+        st.write(f"BERT loaded: `{health.get('bert_loaded')}`")
+        st.write(f"Legacy ST+LR: `{health.get('legacy_st_lr_loaded')}`")
+        st.write(f"LLM configured: `{health.get('llm_configured')}`")
+        st.caption("Engine: hybrid router (Regex + BERT + LLM)")
 
     tab_single, tab_batch, tab_metrics = st.tabs(["Classify log", "Batch CSV", "Monitoring"])
 
@@ -167,10 +171,8 @@ def main() -> None:
             else:
                 try:
                     with st.spinner("Classifying..."):
-                        result = classify_one(str(log_message).strip(), source_value, mode, client)
+                        result = classify_one(str(log_message).strip(), source_value, use_api, client)
                     render_result(result)
-                except IntelliLogAPIError as exc:
-                    st.error(str(exc))
                 except Exception as exc:  # noqa: BLE001
                     st.error(f"Classification failed: {exc}")
 
@@ -193,16 +195,19 @@ def main() -> None:
                             item["source"] = str(row["source"])
                         logs.append(item)
                     with st.spinner(f"Classifying {len(logs)} logs..."):
-                        if mode.startswith("Direct"):
-                            from app.services.batch import classify_dataframe
-                            from app.routing.router import get_router
+                        from app.services.batch import classify_dataframe
+                        from app.routing.router import get_router
 
-                            out_df = classify_dataframe(df, router=get_router())
+                        if use_api:
+                            try:
+                                payload = client.batch_predict(logs)
+                                out_df = pd.DataFrame(payload.get("results", []))
+                                if not out_df.empty:
+                                    out_df = pd.concat([df.reset_index(drop=True), out_df], axis=1)
+                            except IntelliLogAPIError:
+                                out_df = classify_dataframe(df, router=get_router())
                         else:
-                            payload = client.batch_predict(logs)
-                            out_df = pd.DataFrame(payload.get("results", []))
-                            if not out_df.empty:
-                                out_df = pd.concat([df.reset_index(drop=True), out_df], axis=1)
+                            out_df = classify_dataframe(df, router=get_router())
                     st.success(f"Classified {len(out_df)} rows.")
                     st.dataframe(out_df, use_container_width=True)
                     st.download_button(
@@ -211,35 +216,33 @@ def main() -> None:
                         file_name="classified_logs.csv",
                         mime="text/csv",
                     )
-                except IntelliLogAPIError as exc:
-                    st.error(str(exc))
                 except Exception as exc:  # noqa: BLE001
                     st.error(f"Batch classification failed: {exc}")
 
     with tab_metrics:
         st.subheader("Runtime monitoring")
         try:
-            metrics = _direct_metrics() if mode.startswith("Direct") else client.metrics()
-            m1, m2, m3, m4 = st.columns(4)
-            m1.metric("Total requests", metrics.get("total_requests", 0))
-            m2.metric("Avg latency (ms)", f"{float(metrics.get('average_latency_ms') or 0):.2f}")
-            m3.metric("LLM fallback %", f"{float(metrics.get('llm_fallback_percentage') or 0):.2f}")
-            m4.metric("Est. LLM cost USD", f"{float(metrics.get('estimated_llm_cost_usd') or 0):.6f}")
-            chart_df = pd.DataFrame(
-                {
-                    "method": ["Regex", "BERT", "Legacy ST+LR", "LLM fallback"],
-                    "count": [
-                        metrics.get("regex_requests", 0),
-                        metrics.get("bert_requests", 0),
-                        metrics.get("legacy_st_lr_requests", 0),
-                        metrics.get("llm_fallback_requests", 0),
-                    ],
-                }
-            )
-            st.bar_chart(chart_df.set_index("method"))
-            st.json(metrics)
-        except IntelliLogAPIError as exc:
-            st.error(str(exc))
+            metrics = client.metrics() if use_api else _direct_metrics()
+        except Exception:
+            metrics = _direct_metrics()
+        m1, m2, m3, m4 = st.columns(4)
+        m1.metric("Total requests", metrics.get("total_requests", 0))
+        m2.metric("Avg latency (ms)", f"{float(metrics.get('average_latency_ms') or 0):.2f}")
+        m3.metric("LLM fallback %", f"{float(metrics.get('llm_fallback_percentage') or 0):.2f}")
+        m4.metric("Est. LLM cost USD", f"{float(metrics.get('estimated_llm_cost_usd') or 0):.6f}")
+        chart_df = pd.DataFrame(
+            {
+                "method": ["Regex", "BERT", "Legacy ST+LR", "LLM fallback"],
+                "count": [
+                    metrics.get("regex_requests", 0),
+                    metrics.get("bert_requests", 0),
+                    metrics.get("legacy_st_lr_requests", 0),
+                    metrics.get("llm_fallback_requests", 0),
+                ],
+            }
+        )
+        st.bar_chart(chart_df.set_index("method"))
+        st.json(metrics)
 
 
 if __name__ == "__main__":
