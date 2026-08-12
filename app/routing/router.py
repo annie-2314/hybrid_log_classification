@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import threading
 import time
 import uuid
 from typing import List, Optional
@@ -194,10 +195,13 @@ class HybridRouter:
 
 
 _router: Optional[HybridRouter] = None
+_router_lock = threading.Lock()
 
 
 def get_router() -> HybridRouter:
     global _router
     if _router is None:
-        _router = HybridRouter()
+        with _router_lock:
+            if _router is None:
+                _router = HybridRouter()
     return _router

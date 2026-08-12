@@ -15,3 +15,16 @@ services:
       - ./models:/app/models
       - ./evaluation_results:/app/evaluation_results
     restart: unless-stopped
+
+  intellilog-ui:
+    build: .
+    command: ["streamlit", "run", "ui/app.py", "--server.address=0.0.0.0", "--server.port=8501"]
+    ports:
+      - "8501:8501"
+    env_file:
+      - .env
+    environment:
+      - INTELLILOG_API_URL=http://intellilog-api:8000
+    depends_on:
+      - intellilog-api
+    restart: unless-stopped

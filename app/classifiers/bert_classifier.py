@@ -3,9 +3,10 @@
 from __future__ import annotations
 
 import json
+import threading
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 import torch
 from torch.nn import functional as F
@@ -14,6 +15,26 @@ from app.core.config import get_settings
 from app.core.logging import get_logger
 
 logger = get_logger(__name__)
+
+
+def _import_hf_auto_classes() -> Tuple[Any, Any]:
+    """Import Auto classes in a Transformers v4/v5 compatible way.
+
+    Transformers 5 uses lazy exports; a top-level import can fail during
+    concurrent first-load (e.g. uvicorn --reload + /health). Explicit
+    submodule imports are more reliable.
+    """
+    try:
+        from transformers.models.auto.modeling_auto import (
+            AutoModelForSequenceClassification,
+        )
+        from transformers.models.auto.tokenization_auto import AutoTokenizer
+
+        return AutoModelForSequenceClassification, AutoTokenizer
+    except Exception:
+        from transformers import AutoModelForSequenceClassification, AutoTokenizer
+
+        return AutoModelForSequenceClassification, AutoTokenizer
 
 
 @dataclass
@@ -38,6 +59,7 @@ class BertClassifier:
         self._id2label: Dict[int, str] = {}
         self._loaded = False
         self._load_error: Optional[str] = None
+        self._lock = threading.Lock()
 
     @property
     def is_available(self) -> bool:
@@ -45,7 +67,7 @@ class BertClassifier:
         return self._loaded
 
     def _ensure_loaded(self) -> None:
-        if self._loaded or self._load_error is not None:
+        if self._loaded:
             return
 
         config_path = self.model_dir / "config.json"
@@ -54,27 +76,31 @@ class BertClassifier:
             logger.warning(self._load_error)
             return
 
-        try:
-            from transformers import AutoModelForSequenceClassification, AutoTokenizer
+        with self._lock:
+            if self._loaded:
+                return
+            try:
+                AutoModelForSequenceClassification, AutoTokenizer = _import_hf_auto_classes()
+                self._tokenizer = AutoTokenizer.from_pretrained(self.model_dir)
+                self._model = AutoModelForSequenceClassification.from_pretrained(self.model_dir)
+                self._model.to(self.device)
+                self._model.eval()
 
-            self._tokenizer = AutoTokenizer.from_pretrained(self.model_dir)
-            self._model = AutoModelForSequenceClassification.from_pretrained(self.model_dir)
-            self._model.to(self.device)
-            self._model.eval()
+                label_map_path = self.model_dir / "label_map.json"
+                if label_map_path.exists():
+                    with label_map_path.open("r", encoding="utf-8") as handle:
+                        payload = json.load(handle)
+                    self._id2label = {int(k): v for k, v in payload.get("id2label", {}).items()}
+                else:
+                    self._id2label = {int(k): v for k, v in self._model.config.id2label.items()}
 
-            label_map_path = self.model_dir / "label_map.json"
-            if label_map_path.exists():
-                with label_map_path.open("r", encoding="utf-8") as handle:
-                    payload = json.load(handle)
-                self._id2label = {int(k): v for k, v in payload.get("id2label", {}).items()}
-            else:
-                self._id2label = {int(k): v for k, v in self._model.config.id2label.items()}
-
-            self._loaded = True
-            logger.info("Loaded fine-tuned BERT from %s on %s", self.model_dir, self.device)
-        except Exception as exc:  # noqa: BLE001
-            self._load_error = str(exc)
-            logger.exception("Failed to load BERT classifier: %s", exc)
+                self._loaded = True
+                self._load_error = None
+                logger.info("Loaded fine-tuned BERT from %s on %s", self.model_dir, self.device)
+            except Exception as exc:  # noqa: BLE001
+                # Do not freeze on transient import races; allow the next call to retry.
+                self._load_error = str(exc)
+                logger.exception("Failed to load BERT classifier: %s", exc)
 
     def classify(self, log_message: str) -> BertResult:
         self._ensure_loaded()

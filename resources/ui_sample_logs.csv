@@ -1,0 +1,13 @@
+source,log_message
+BillingSystem,User User123 logged in.
+AnalyticsEngine,Backup completed successfully.
+AnalyticsEngine,File data_6957.csv uploaded successfully by user User265.
+ModernHR,Account with ID 6237 created by User607.
+ModernCRM,Unauthorized access to data was attempted
+ModernHR,Admin access escalation detected for user 9429
+ModernCRM,IP 192.168.133.114 blocked due to potential attack
+ModernHR,GET /v2/54fadb412c4e40cdbaed9335e4c35a9e/servers/detail HTTP/1.1 RCODE  200 len: 1583 time: 0.1878400
+ThirdPartyAPI,"nova.compute.claims [instance: bf8c824d-f099-4433-a41e-e3da7578262e] Total memory: 64172 MB, used: 512.00 MB"
+AnalyticsEngine,Unanticipated server 3 restart happened during data exchange
+LegacyCRM,Case escalation for ticket ID 7324 failed because the assigned support agent is no longer active.
+LegacyCRM,The 'ReportGenerator' module will be retired in version 4.0. Please migrate to the 'AdvancedAnalyticsSuite' by Dec 2025

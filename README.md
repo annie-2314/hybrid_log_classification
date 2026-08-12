@@ -221,6 +221,30 @@ Interactive docs: `http://127.0.0.1:8000/docs`
 
 ---
 
+## Streamlit frontend
+
+A Streamlit UI is included for demos (single log, CSV batch, and live metrics).
+
+```powershell
+# Terminal 1 — backend
+.\.venv\Scripts\Activate.ps1
+uvicorn app.main:app --reload
+
+# Terminal 2 — frontend
+.\.venv\Scripts\Activate.ps1
+streamlit run ui/app.py
+```
+
+Open `http://127.0.0.1:8501`.
+
+Modes:
+- **API (FastAPI)** — recommended. UI calls `/predict`, `/batch-predict`, `/health`, `/metrics`.
+- **Direct (local router)** — loads the hybrid router inside Streamlit (no backend required).
+
+Optional: set `INTELLILOG_API_URL` (default `http://127.0.0.1:8000`).
+
+---
+
 ## Batch processing
 
 CSV input must include `log_message` (optional `source`).  
@@ -264,6 +288,9 @@ training/
 models/
   log_classifier.joblib      # legacy ST+LR
   bert_classifier/           # fine-tuned transformer
+ui/
+  app.py            # Streamlit frontend
+  api_client.py     # FastAPI HTTP client
 tests/
 scripts/prepare_dataset.py
 Dockerfile

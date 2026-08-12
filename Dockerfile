@@ -21,6 +21,7 @@ COPY models ./models
 COPY training ./training
 COPY scripts ./scripts
 COPY resources ./resources
+COPY ui ./ui
 COPY classify.py server.py processor_regex.py processor_bert.py processor_llm.py ./
 
 # Secrets must be provided at runtime via env / compose, never baked into the image.
