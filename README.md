@@ -157,17 +157,21 @@ Results: `evaluation_results/model_comparison.json` and `.md`.
 
 **No fabricated metrics** — skipped models are marked `skipped` with a reason.
 
-### Latest measured comparison (test split, n=340)
+### Latest measured comparison (fair / scoped)
 
-| Model | Accuracy | Macro F1 | Weighted F1 | Avg Latency (ms) |
-|---|---:|---:|---:|---:|
-| Regex only | 0.1706 | 0.2222 | 0.1706 | 0.012 |
-| SentenceTransformer + LR | 0.8118 | 0.4682 | 0.7508 | 27.649 |
-| Fine-tuned DistilBERT | 0.9971 | 0.8726 | 0.9956 | 72.796 |
-| LLM only | skipped (opt-in with `--include-llm`) | | | |
-| Hybrid router | 0.9676 | 0.9488 | 0.9666 | 144.369 |
+Specialists are scored on their **intended scope** (not forced to classify every class):
 
-Hybrid routing breakdown on the same test set: **regex 58**, **BERT 242**, **LLM fallback 40** (~11.8% LLM usage). Hybrid Macro F1 is higher than BERT-alone because rare classes benefit from LLM fallback, while average latency rises when LLM is invoked.
+| Model | Eval Scope | n | Accuracy | Macro F1 | Weighted F1 | Avg Latency (ms) |
+|---|---|---:|---:|---:|---:|---:|
+| Regex only | regex templates only | 58 | **1.0000** | **1.0000** | **1.0000** | 0.087 |
+| SentenceTransformer + LR | bert-complexity logs | 281 | **0.9822** | **0.8058** | **0.9851** | 253.8 |
+| Fine-tuned DistilBERT | full test set | 340 | 0.9971 | 0.8726 | 0.9956 | 313.9 |
+| LLM only | skipped (opt-in with `--include-llm`) | | | | | |
+| Hybrid router | full test set | 340 | 0.9676 | 0.9480 | 0.9669 | 581.7 |
+
+Full-test-set reference (why older numbers looked low): Regex ≈ 0.17 and ST+LR Macro F1 ≈ 0.47 when scored on **all** classes — expected, because Regex abstains on non-template logs and ST+LR is weak on rare LLM-only labels.
+
+Hybrid routing breakdown: most traffic is Regex/BERT; LLM is only used for low-confidence / complex cases.
 
 ---
 
